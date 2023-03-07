@@ -3,7 +3,7 @@ const mysql = require('mysql2');
 const cTable = require('console.table');
 const inquirer = require('inquirer');
 
-const PORT = process.env.PORT || 3001;
+// const PORT = process.env.PORT || 3306;
 const app = express();
 
 function init() {
@@ -58,21 +58,29 @@ function init() {
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
+    port: 3306,
     password: '46Boebo58!@',
     database: 'employees_db'
     },
     console.log(`Connected to the employees_db database.`)
 );
 
+db.connect(function(err) {
+    if (err) throw err;
+    console.log('connected as id ' + db.threadId);
+    init();
+})
+
 //view all departments 
 function viewDepartments() {
     console.log('Viewing all departments');
 
-    db.query(`SELECT * FROM departments`, (err, result) => {
+    db.query(`SELECT * FROM department`, (err, result) => {
         if (err) {
             console.log(err);
         }
-        console.tables(rows)
+        console.table(result)
+        console.log(cTable.getTable(result));
         console.log('Success, here are all the departments: ' + result);
     });
 };
@@ -81,20 +89,20 @@ function viewDepartments() {
 function viewRoles() {
     console.log('Viewing all roles');
 
-    db.query(`SELECT * FROM roles`, (err, result) => {
+    db.query(`SELECT * FROM role`, (err, result) => {
         if (err) {
             console.log(err);
         }
-        console.tables(result);
+        console.table(result);
         console.log('Success, here are all the roles: ' + result);
     });
 };
 
 //view all employees
 function viewEmployees() {
-    console.log('Viewing all employees');
+    console.log('Viewing all employee');
 
-    db.query(`SELECT * FROM employees`, (err, result) => {
+    db.query(`SELECT * FROM employee`, (err, result) => {
         if (err) {
             console.log(err);
         }
@@ -115,7 +123,7 @@ function addDepartment() {
     ])
     .then((answer) => {
         const params = answer.department;
-        db.query(`INSERT INTO departments (name) VALUES (?)`, params, (err, result) => {
+        db.query(`INSERT INTO department (name) VALUES (?)`, params, (err, result) => {
             if (err) {
                 console.log(err);
             }
@@ -149,7 +157,7 @@ function addRole() {
     ])
     .then((answer) => {
         const params = [answer.title, answer.salary, answer.department_id];
-        db.query(`INSERT INTO roles (title, salary, department_id) VALUES (?, ?, ?)`, params, (err, result) => {
+        db.query(`INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`, params, (err, result) => {
             if (err) {
                 console.log(err);
             }
@@ -189,7 +197,7 @@ function addEmployee() {
     ])
     .then((answer) => {
         const params = [answer.first_name, answer.last_name, answer.role_id, answer.manager_id];
-        db.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`, params, (err, result) => {
+        db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`, params, (err, result) => {
             if (err) {
                 console.log(err);
             }
@@ -217,7 +225,7 @@ function updateEmployeeRole() {
     ])
     .then((answer) => {
         const params = [answer.role_id, answer.id];
-        db.query(`UPDATE employees SET role_id = ? WHERE id = ?`, params, (err, result) => {
+        db.query(`UPDATE employee SET role_id = ? WHERE id = ?`, params, (err, result) => {
             if (err) {
                 console.log(err);
             }
@@ -226,14 +234,3 @@ function updateEmployeeRole() {
         });
     });
 };
-
-// Default response for any other request (Not Found)
-app.use((req, res) => {
-    res.status(404).end();
-});
-
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
-
-init();
