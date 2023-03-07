@@ -58,7 +58,7 @@ function init() {
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '',
+    password: '46Boebo58!@',
     database: 'employees_db'
     },
     console.log(`Connected to the employees_db database.`)
