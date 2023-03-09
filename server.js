@@ -52,13 +52,13 @@ function init() {
                 break;
         }
     });
-}
+};
 
 
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    port: 3306,
+    // port: 3306,
     password: '46Boebo58!@',
     database: 'employees_db'
     },
@@ -67,7 +67,7 @@ const db = mysql.createConnection({
 
 db.connect(function(err) {
     if (err) throw err;
-    console.log('connected as id ' + db.threadId);
+    console.log(db.threadId);
     init();
 })
 
@@ -81,7 +81,7 @@ function viewDepartments() {
         }
         console.table(result)
         console.log(cTable.getTable(result));
-        console.log('Success, here are all the departments: ' + result);
+        console.log('Success, here are all the departments: ' + JSON.stringify(result));
     });
 };
 
@@ -94,7 +94,7 @@ function viewRoles() {
             console.log(err);
         }
         console.table(result);
-        console.log('Success, here are all the roles: ' + result);
+        console.log('Success, here are all the roles: ' + JSON.stringify(result));
     });
 };
 
@@ -107,7 +107,7 @@ function viewEmployees() {
             console.log(err);
         }
         console.table(result);
-        console.log('Success, here are all the employees: ' + result);
+        console.log('Success, here are all the employees: ' + JSON.stringify(result));
     });
 };
 
@@ -127,7 +127,7 @@ function addDepartment() {
             if (err) {
                 console.log(err);
             }
-            console.log('Success, department added: ' + result);
+            console.log('Success, department added: ' + JSON.stringify(result));
             console.table(result);
         });
     });
@@ -161,7 +161,7 @@ function addRole() {
             if (err) {
                 console.log(err);
             }
-            console.log('Success, role added: ' + result);
+            console.log('Success, role added: ' + JSON.stringify(result));
             console.table(result);
         });
     });
@@ -201,7 +201,7 @@ function addEmployee() {
             if (err) {
                 console.log(err);
             }
-            console.log('Success, employee added: ' + result);
+            console.log('Success, employee added: ' + JSON.stringify(result));
             console.table(result);
         });
     });
@@ -229,7 +229,7 @@ function updateEmployeeRole() {
             if (err) {
                 console.log(err);
             }
-            console.log('Success, employee role updated: ' + result);
+            console.log('Success, employee role updated: ' + JSON.stringify(result));
             console.table(result);
         });
     });
