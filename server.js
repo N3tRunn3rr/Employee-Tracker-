@@ -48,7 +48,7 @@ function init() {
                 updateEmployeeRole();
                 break;
             case 'Exit':
-                exit();
+                db.end();
                 break;
         }
     });
@@ -82,6 +82,7 @@ function viewDepartments() {
         console.table(result)
         console.log(cTable.getTable(result));
         console.log('Success, here are all the departments: ' + JSON.stringify(result));
+        init();
     });
 };
 
@@ -95,6 +96,7 @@ function viewRoles() {
         }
         console.table(result);
         console.log('Success, here are all the roles: ' + JSON.stringify(result));
+        init();
     });
 };
 
@@ -108,6 +110,7 @@ function viewEmployees() {
         }
         console.table(result);
         console.log('Success, here are all the employees: ' + JSON.stringify(result));
+        init();
     });
 };
 
@@ -129,6 +132,7 @@ function addDepartment() {
             }
             console.log('Success, department added: ' + JSON.stringify(result));
             console.table(result);
+            init();
         });
     });
 };
@@ -151,7 +155,7 @@ function addRole() {
         {
             type: 'input',
             name: 'department_id',
-            message: 'What is the department id of the role you would like to add?'
+            message: 'What is the department id of the role you would like to add?: 1-Sales, 2-Engineering, 3-Finance, 4-Legal'
 
         }
     ])
@@ -163,6 +167,7 @@ function addRole() {
             }
             console.log('Success, role added: ' + JSON.stringify(result));
             console.table(result);
+            init();
         });
     });
 };
@@ -203,6 +208,7 @@ function addEmployee() {
             }
             console.log('Success, employee added: ' + JSON.stringify(result));
             console.table(result);
+            init();
         });
     });
 };
@@ -231,6 +237,7 @@ function updateEmployeeRole() {
             }
             console.log('Success, employee role updated: ' + JSON.stringify(result));
             console.table(result);
+            init();
         });
     });
 };
