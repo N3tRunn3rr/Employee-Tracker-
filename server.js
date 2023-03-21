@@ -2,6 +2,7 @@ const express = require('express');
 const mysql = require('mysql2');
 const cTable = require('console.table');
 const inquirer = require('inquirer');
+const dotenv = require('dotenv').config();
 
 // const PORT = process.env.PORT || 3306;
 const app = express();
@@ -59,7 +60,7 @@ const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     // port: 3306,
-    password: '46Boebo58!@',
+    password: '',
     database: 'employees_db'
     },
     console.log(`Connected to the employees_db database.`)
